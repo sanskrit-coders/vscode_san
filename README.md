@@ -14,6 +14,6 @@ Adds **Open on GitHub**, **Copy GitHub URL**, and **`diff_san` Diff Actions** fo
 
 - **Submodules & worktrees:** resolves `.git` pointer files (`gitdir: ...`) and worktree `commondir` configs directly.
 - **Files, directories, & line selections:** opens `/blob/<branch-or-sha>/...` (with `#L...` fragments from editors) and `/tree/<branch-or-sha>/...` for folders and submodule roots.
-- **Diff with `diff_san`:** right-click a file/folder (diff against `HEAD`), two selected files (side-by-side comparison), or 3+ files (`--head`) using [`diff_san`](https://github.com/sanskrit-coders/diff_san) (`local-diff-san`).
+- **Diff with `diff_san`:** right-click a file/folder (diff against `HEAD`), two selected files (side-by-side comparison), or 3+ files (`--head`) using [`local-diff-san`](https://github.com/sanskrit-coders/diff_san/blob/master/local_diff/README.md) from [`diff_san`](https://github.com/sanskrit-coders/diff_san/blob/master/README.md) (`pip install local-diff-san`).
 
 See [`github-san/README.md`](github-san/README.md) for build and installation instructions.

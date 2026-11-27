@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Linked `diff_san` and `local-diff-san` installation READMEs in the extension description and documentation.
+
 ## 1.1.0
 
 - Initial VS Code release matching `jetbrains_san/github-san` v1.1.0.

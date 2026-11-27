@@ -1,8 +1,8 @@
 {
   "name": "github-san",
   "displayName": "Github-san tools",
-  "description": "Open files and folders inside Git submodules, worktrees, and multi-root repositories on GitHub, and launch Sanskrit-aware diffs with diff_san.",
-  "version": "1.1.0",
+  "description": "Open files and folders inside Git submodules, worktrees, and multi-root repositories on GitHub, and launch Sanskrit-aware diffs with diff_san (pip install local-diff-san; see https://github.com/sanskrit-coders/diff_san/blob/master/local_diff/README.md).",
+  "version": "1.1.1",
   "publisher": "sanskrit-coders",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -140,7 +140,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
     "test": "node --test out/test/*.test.js",
-    "package": "npm run compile && mkdir -p build && npx --yes @vscode/vsce package --no-dependencies -o build/github-san-1.1.0.vsix"
+    "package": "npm run compile && mkdir -p build && npx --yes @vscode/vsce package --no-dependencies -o build/github-san-1.1.1.vsix"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

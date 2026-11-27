@@ -19,6 +19,16 @@ Visual Studio Code extension (`sanskrit-coders.github-san`) providing **Open on 
   - **3+ selected files** in Git repos → diffs all selected files against `HEAD` (`local-diff-san --head <paths...>`).
 - Resolves `.git` pointer files (`gitdir: ...`), worktree `commondir` configs, tracking branch names (e.g. `origin/content` → `content`), detached `HEAD` commits, and UTF-8 / Devanagari path segments.
 
+## Prerequisites (`diff_san` binaries)
+
+The **Diff with `diff_san`** command invokes `local-diff-san`. Install it following the [`local_diff/README.md`](https://github.com/sanskrit-coders/diff_san/blob/master/local_diff/README.md) and [`diff_san` overview README](https://github.com/sanskrit-coders/diff_san/blob/master/README.md):
+
+```bash
+pip install local-diff-san
+# Or editable install from a local diff_san clone:
+pip install -e /path/to/diff_san/pull_requests -e /path/to/diff_san/local_diff
+```
+
 ## Configuration
 
 - `githubSan.diffSanExecutable`: Optional path to `local-diff-san`. When empty, searches `DIFF_SAN_BIN`, `PATH`, workspace `.venv/bin` / `venv/bin`, `~/gitland/python_venv/bin`, `~/.local/bin`, `~/.venv/bin`, `~/venv/bin`, and `~/gitland/sanskrit-coders/diff_san/.venv/bin`.
@@ -30,5 +40,5 @@ cd github-san
 npm install
 npm test
 npm run package
-code --install-extension build/github-san-1.1.0.vsix
+code --install-extension build/github-san-1.1.1.vsix
 ```
