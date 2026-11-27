@@ -2,6 +2,13 @@
 
 Visual Studio Code extension (`sanskrit-coders.github-san`) providing **Open on GitHub**, **Copy GitHub URL**, and [`diff_san`](https://github.com/sanskrit-coders/diff_san) (`local-diff-san`) integration for files and folders inside Git submodules, worktrees, and multi-root workspaces.
 
+## Install
+
+- **VS Code Marketplace:** [Github-san tools (`sanskrit-coders.github-san`)](https://marketplace.visualstudio.com/items?itemName=sanskrit-coders.github-san) — or run `code --install-extension sanskrit-coders.github-san`
+- **Open VSX Registry (Cursor, Windsurf, VSCodium, Antigravity):** [`sanskrit-coders/github-san`](https://open-vsx.org/extension/sanskrit-coders/github-san)
+- **GitHub Releases:** [`sanskrit-coders/vscode_san/releases`](https://github.com/sanskrit-coders/vscode_san/releases)
+- **JetBrains sister plugin:** [`sanskrit-coders/jetbrains_san`](https://github.com/sanskrit-coders/jetbrains_san)
+
 ## Features
 
 - **Open on GitHub** (`Github-san: Open on GitHub`): Opens files, folders, and submodule roots in your browser from Explorer, Editor, Editor Tab, Source Control (SCM), or Command Palette, with `#L...` line/selection anchors in active editors.
