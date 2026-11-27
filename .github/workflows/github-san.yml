@@ -52,18 +52,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload "${{ github.event.release.tag_name }}" build/*.vsix --clobber
-      - name: Publish to VS Marketplace (when configured)
+      - name: Publish to VS Marketplace
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
-          VSCE_OIDC: ${{ vars.VSCE_TRUSTED_PUBLISHING }}
         run: |
           VSIX=$(ls build/*.vsix | head -n1)
-          if [ "$VSCE_OIDC" = "true" ]; then
-            npx --yes @vscode/vsce publish --packagePath "$VSIX" --oidc
-          elif [ -n "$VSCE_PAT" ]; then
+          if [ -n "$VSCE_PAT" ]; then
             npx --yes @vscode/vsce publish --packagePath "$VSIX" -p "$VSCE_PAT"
           else
-            echo "Neither VSCE_TRUSTED_PUBLISHING nor VSCE_PAT is set; skipping VS Marketplace upload."
+            npx --yes @vscode/vsce publish --packagePath "$VSIX" --oidc
           fi
       - name: Publish to Open VSX (when configured)
         env:
