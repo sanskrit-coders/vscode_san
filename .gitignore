@@ -1,0 +1,16 @@
+# Build & package outputs
+node_modules/
+*/node_modules/
+out/
+*/out/
+*.vsix
+*/build/
+
+# IDE & OS metadata
+.vscode/
+.vscode-test/
+.idea/
+*.iml
+.DS_Store
+*~
+*.log

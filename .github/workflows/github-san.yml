@@ -1,0 +1,62 @@
+name: Github-san tools (VS Code)
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  release:
+    types: [ published ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: github-san
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: github-san/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: github-san-vsix
+          path: github-san/build/*.vsix
+
+  publish:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: github-san
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: github-san/package-lock.json
+      - run: npm ci
+      - run: npm run package
+      - name: Attach VSIX to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.event.release.tag_name }}" build/*.vsix --clobber
+      - name: Publish to VS Marketplace (when configured)
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          if [ -n "$VSCE_PAT" ]; then
+            npx --yes @vscode/vsce publish --no-dependencies -p "$VSCE_PAT"
+          else
+            echo "VSCE_PAT secret not set; skipping VS Marketplace upload."
+          fi

@@ -1,0 +1,150 @@
+{
+  "name": "github-san",
+  "displayName": "Github-san tools",
+  "description": "Open files and folders inside Git submodules, worktrees, and multi-root repositories on GitHub, and launch Sanskrit-aware diffs with diff_san.",
+  "version": "1.1.0",
+  "publisher": "sanskrit-coders",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanskrit-coders/vscode_san.git",
+    "directory": "github-san"
+  },
+  "homepage": "https://github.com/sanskrit-coders/vscode_san/tree/master/github-san",
+  "bugs": {
+    "url": "https://github.com/sanskrit-coders/vscode_san/issues"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "github",
+    "submodule",
+    "worktree",
+    "git",
+    "diff",
+    "sanskrit",
+    "diff_san"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "githubSan.openInBrowser",
+        "title": "Open on GitHub",
+        "category": "Github-san",
+        "icon": "$(github)"
+      },
+      {
+        "command": "githubSan.copyUrl",
+        "title": "Copy GitHub URL",
+        "category": "Github-san",
+        "icon": "$(link)"
+      },
+      {
+        "command": "githubSan.diffWithDiffSan",
+        "title": "Diff with diff_san (HEAD / Two Files)",
+        "category": "Github-san",
+        "icon": "$(diff)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "githubSan.diffWithDiffSan",
+          "when": "resourceScheme == file",
+          "group": "3_compare@10"
+        },
+        {
+          "command": "githubSan.openInBrowser",
+          "when": "resourceScheme == file",
+          "group": "6_copypath@90"
+        },
+        {
+          "command": "githubSan.copyUrl",
+          "when": "resourceScheme == file",
+          "group": "6_copypath@91"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "githubSan.diffWithDiffSan",
+          "when": "editorTextFocus && resourceScheme == file",
+          "group": "z_github_san@1"
+        },
+        {
+          "command": "githubSan.openInBrowser",
+          "when": "editorTextFocus && resourceScheme == file",
+          "group": "z_github_san@2"
+        },
+        {
+          "command": "githubSan.copyUrl",
+          "when": "editorTextFocus && resourceScheme == file",
+          "group": "z_github_san@3"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "githubSan.diffWithDiffSan",
+          "when": "resourceScheme == file",
+          "group": "7_github_san@1"
+        },
+        {
+          "command": "githubSan.openInBrowser",
+          "when": "resourceScheme == file",
+          "group": "7_github_san@2"
+        },
+        {
+          "command": "githubSan.copyUrl",
+          "when": "resourceScheme == file",
+          "group": "7_github_san@3"
+        }
+      ],
+      "scm/resourceState/context": [
+        {
+          "command": "githubSan.diffWithDiffSan",
+          "when": "scmProvider == git && resourceScheme == file",
+          "group": "7_github_san@1"
+        },
+        {
+          "command": "githubSan.openInBrowser",
+          "when": "scmProvider == git && resourceScheme == file",
+          "group": "7_github_san@2"
+        },
+        {
+          "command": "githubSan.copyUrl",
+          "when": "scmProvider == git && resourceScheme == file",
+          "group": "7_github_san@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Github-san tools",
+      "properties": {
+        "githubSan.diffSanExecutable": {
+          "type": "string",
+          "default": "",
+          "description": "Optional path to local-diff-san (from diff_san). Leave empty to auto-detect from DIFF_SAN_BIN, PATH, workspace virtualenvs, ~/gitland/python_venv/bin, and ~/.local/bin."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node --test out/test/*.test.js",
+    "package": "npm run compile && mkdir -p build && npx --yes @vscode/vsce package --no-dependencies -o build/github-san-1.1.0.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.5.4"
+  }
+}
