@@ -35,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
     defaults:
       run:
         working-directory: github-san
@@ -54,9 +55,22 @@ jobs:
       - name: Publish to VS Marketplace (when configured)
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          VSCE_OIDC: ${{ vars.VSCE_TRUSTED_PUBLISHING }}
         run: |
-          if [ -n "$VSCE_PAT" ]; then
-            npx --yes @vscode/vsce publish --no-dependencies -p "$VSCE_PAT"
+          VSIX=$(ls build/*.vsix | head -n1)
+          if [ "$VSCE_OIDC" = "true" ]; then
+            npx --yes @vscode/vsce publish --packagePath "$VSIX" --oidc
+          elif [ -n "$VSCE_PAT" ]; then
+            npx --yes @vscode/vsce publish --packagePath "$VSIX" -p "$VSCE_PAT"
           else
-            echo "VSCE_PAT secret not set; skipping VS Marketplace upload."
+            echo "Neither VSCE_TRUSTED_PUBLISHING nor VSCE_PAT is set; skipping VS Marketplace upload."
+          fi
+      - name: Publish to Open VSX (when configured)
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          if [ -n "$OVSX_PAT" ]; then
+            npx --yes ovsx publish build/*.vsix -p "$OVSX_PAT"
+          else
+            echo "OVSX_PAT secret not set; skipping Open VSX upload."
           fi
