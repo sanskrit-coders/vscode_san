@@ -17,10 +17,15 @@ interface RemoteInfo {
   readonly githubBaseUrl: string;
 }
 
-interface CommandResult {
+export interface CommandResult {
   readonly exitCode: number;
   readonly stdout: string;
   readonly stderr: string;
+}
+
+export interface RunGitOptions {
+  readonly timeoutMs?: number;
+  readonly env?: NodeJS.ProcessEnv;
 }
 
 const REMOTE_SECTION_PATTERN = /^\[remote\s+"([^"]+)"\s*]$/;
@@ -342,12 +347,22 @@ async function getCurrentBranch(repoRoot: string): Promise<string | null> {
   return null;
 }
 
-function runGit(repoRoot: string, ...args: string[]): Promise<CommandResult> {
+export function runGit(repoRoot: string, ...args: string[]): Promise<CommandResult> {
+  return runGitWithOptions(repoRoot, args);
+}
+
+export function runGitWithOptions(
+  repoRoot: string,
+  args: readonly string[],
+  options: RunGitOptions = {},
+): Promise<CommandResult> {
+  const timeoutMs = options.timeoutMs ?? GIT_TIMEOUT_MS;
+  const env = options.env ? { ...process.env, ...options.env } : process.env;
   return new Promise((resolve, reject) => {
     execFile(
       'git',
       ['-C', repoRoot, ...args],
-      { timeout: GIT_TIMEOUT_MS, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 },
+      { timeout: timeoutMs, env, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 },
       (err, stdout, stderr) => {
         if (!err) {
           resolve({ exitCode: 0, stdout: stdout ?? '', stderr: stderr ?? '' });

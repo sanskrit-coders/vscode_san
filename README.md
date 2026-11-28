@@ -10,9 +10,10 @@ Visual Studio Code extensions tailored for Sanskrit scholarship and multi-submod
 - **Open VSX Registry:** [`sanskrit-coders/github-san`](https://open-vsx.org/extension/sanskrit-coders/github-san)
 - **GitHub Releases:** [`github-san-v*` `.vsix` packages](https://github.com/sanskrit-coders/vscode_san/releases)
 
-Adds **Open on GitHub**, **Copy GitHub URL**, and **`diff_san` Diff Actions** for files and folders inside Git submodules, Git worktrees, and multi-root repositories—including cases where multiple submodules point to different branches of the same GitHub repository (such as `content` and `static` branches in `vishvAsa` Hugo corpora).
+Adds **Open on GitHub**, **Copy GitHub URL**, silent/explicit **Git Submodule Auto-Push**, and **`diff_san` Diff Actions** for files and folders inside Git submodules, Git worktrees, and multi-root repositories—including cases where multiple submodules point to different branches of the same GitHub repository (such as `content` and `static` branches in `vishvAsa` Hugo corpora).
 
 - **Submodules & worktrees:** resolves `.git` pointer files (`gitdir: ...`) and worktree `commondir` configs directly.
+- **Git submodule auto-push:** pushes ahead submodule commits bottom-up via **Push Submodules & Repository**, silent auto-push when `push.recurseSubmodules` is unset (`githubSan.autoPushSubmodules`), and **Enable Git Submodule Auto-Push** (`push.recurseSubmodules=on-demand` + optional `pre-push` hook).
 - **Files, directories, & line selections:** opens `/blob/<branch-or-sha>/...` (with `#L...` fragments from editors) and `/tree/<branch-or-sha>/...` for folders and submodule roots.
 - **Diff with `diff_san`:** right-click a file/folder (diff against `HEAD`), two selected files (side-by-side comparison), or 3+ files (`--head`) using [`local-diff-san`](https://github.com/sanskrit-coders/diff_san/blob/master/local_diff/README.md) from [`diff_san`](https://github.com/sanskrit-coders/diff_san/blob/master/README.md) (`pip install local-diff-san`).
 

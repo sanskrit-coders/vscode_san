@@ -1,6 +1,6 @@
 # Github-san tools (VS Code)
 
-Visual Studio Code extension (`sanskrit-coders.github-san`) providing **Open on GitHub**, **Copy GitHub URL**, and [`diff_san`](https://github.com/sanskrit-coders/diff_san) (`local-diff-san`) integration for files and folders inside Git submodules, worktrees, and multi-root workspaces.
+Visual Studio Code extension (`sanskrit-coders.github-san`) providing **Open on GitHub**, **Copy GitHub URL**, silent/explicit **Git Submodule Auto-Push**, and [`diff_san`](https://github.com/sanskrit-coders/diff_san) (`local-diff-san`) integration for files and folders inside Git submodules, worktrees, and multi-root workspaces.
 
 ## Install
 
@@ -11,6 +11,9 @@ Visual Studio Code extension (`sanskrit-coders.github-san`) providing **Open on 
 
 ## Features
 
+- **Push Submodules & Repository** (`Github-san: Push Submodules & Repository`, `scm/title` upload button, Explorer context, and Commit dropdown **`Commit & Push Submodules + Repo`**): Pushes all ahead initialized submodules bottom-up first and then pushes the enclosing repository.
+- **Silent Submodule Auto-Push on Unconfigured Machines** (`githubSan.autoPushSubmodules`, default `true`): Watches superproject pushes and silently pushes ahead submodule commits bottom-up when `push.recurseSubmodules` is not configured (skipping detached `HEAD` submodules cleanly).
+- **Enable Git Submodule Auto-Push** (`Github-san: Enable Git Submodule Auto-Push`): Configures `git config --global push.recurseSubmodules on-demand` and optionally installs an idempotent bottom-up `.git/hooks/pre-push` hook so VS Code's built-in push and native `git push` automatically push submodules before the parent repository.
 - **Open on GitHub** (`Github-san: Open on GitHub`): Opens files, folders, and submodule roots in your browser from Explorer, Editor, Editor Tab, Source Control (SCM), or Command Palette, with `#L...` line/selection anchors in active editors.
 - **Copy GitHub URL** (`Github-san: Copy GitHub URL`): Copies the canonical GitHub URL directly to your clipboard.
 - **Diff with `diff_san`** (`Github-san: Diff with diff_san (HEAD / Two Files)`):
@@ -31,6 +34,7 @@ pip install -e /path/to/diff_san/pull_requests -e /path/to/diff_san/local_diff
 
 ## Configuration
 
+- `githubSan.autoPushSubmodules`: Silently push ahead commits in initialized submodules bottom-up after a superproject push when `push.recurseSubmodules` is unset (default: `true`).
 - `githubSan.diffSanExecutable`: Optional path to `local-diff-san`. When empty, searches `DIFF_SAN_BIN`, `PATH`, workspace `.venv/bin` / `venv/bin`, `~/gitland/python_venv/bin`, `~/.local/bin`, `~/.venv/bin`, `~/venv/bin`, and `~/gitland/sanskrit-coders/diff_san/.venv/bin`.
 
 ## Build, Test & Install
@@ -40,5 +44,5 @@ cd github-san
 npm install
 npm test
 npm run package
-code --install-extension build/github-san-1.1.1.vsix
+code --install-extension build/github-san-1.2.0.vsix
 ```

@@ -1,8 +1,8 @@
 {
   "name": "github-san",
   "displayName": "Github-san tools",
-  "description": "Open files and folders inside Git submodules, worktrees, and multi-root repositories on GitHub, and launch Sanskrit-aware diffs with diff_san (pip install local-diff-san; see https://github.com/sanskrit-coders/diff_san/blob/master/local_diff/README.md).",
-  "version": "1.1.1",
+  "description": "Open files and folders inside Git submodules, worktrees, and multi-root repositories on GitHub, auto-push ahead Git submodules silently when push.recurseSubmodules is unset (or enable global push.recurseSubmodules=on-demand and pre-push hook), and launch Sanskrit-aware diffs with diff_san (pip install local-diff-san; see https://github.com/sanskrit-coders/diff_san/blob/master/local_diff/README.md).",
+  "version": "1.2.0",
   "publisher": "sanskrit-coders",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -31,6 +31,10 @@
   "engines": {
     "vscode": "^1.85.0"
   },
+  "activationEvents": [
+    "workspaceContains:.gitmodules",
+    "workspaceContains:**/.gitmodules"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -51,14 +55,38 @@
         "title": "Diff with diff_san (HEAD / Two Files)",
         "category": "Github-san",
         "icon": "$(diff)"
+      },
+      {
+        "command": "githubSan.pushWithSubmodules",
+        "title": "Push Submodules & Repository",
+        "category": "Github-san",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "githubSan.enableSubmoduleAutoPush",
+        "title": "Enable Git Submodule Auto-Push",
+        "category": "Github-san",
+        "icon": "$(gear)"
       }
     ],
     "menus": {
+      "scm/title": [
+        {
+          "command": "githubSan.pushWithSubmodules",
+          "when": "scmProvider == git",
+          "group": "navigation@5"
+        }
+      ],
       "explorer/context": [
         {
           "command": "githubSan.diffWithDiffSan",
           "when": "resourceScheme == file",
           "group": "3_compare@10"
+        },
+        {
+          "command": "githubSan.pushWithSubmodules",
+          "when": "resourceScheme == file",
+          "group": "7_github_san@1"
         },
         {
           "command": "githubSan.openInBrowser",
@@ -126,6 +154,11 @@
     "configuration": {
       "title": "Github-san tools",
       "properties": {
+        "githubSan.autoPushSubmodules": {
+          "type": "boolean",
+          "default": true,
+          "description": "Silently push ahead commits in initialized submodules bottom-up after a superproject push when push.recurseSubmodules is not configured on this machine."
+        },
         "githubSan.diffSanExecutable": {
           "type": "string",
           "default": "",
@@ -140,7 +173,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
     "test": "node --test out/test/*.test.js",
-    "package": "npm run compile && mkdir -p build && npx --yes @vscode/vsce package --no-dependencies -o build/github-san-1.1.1.vsix"
+    "package": "npm run compile && mkdir -p build && npx --yes @vscode/vsce package --no-dependencies -o build/github-san-1.2.0.vsix"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
